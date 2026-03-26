@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Solar System - CMPT461 VR</title>
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #info-panel {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.7); color: #fff; padding: 12px 24px;
+      border-radius: 12px; font-family: 'Segoe UI', sans-serif;
+      font-size: 14px; z-index: 999; text-align: center;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+    }
+    #info-panel kbd {
+      background: rgba(255,255,255,0.15); padding: 2px 8px;
+      border-radius: 4px; font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div id="info-panel">
+    🌌 Solar System &mdash; Use <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> to move &bull; Click &amp; drag to look around
+  </div>
+
+  <script>
+    /* ──────────────── Custom orbit component ──────────────── */
+    AFRAME.registerComponent('orbit', {
+      schema: {
+        radius:   { type: 'number', default: 5 },
+        speed:    { type: 'number', default: 1 },
+        tilt:     { type: 'number', default: 0 }
+      },
+      init: function () {
+        this.angle = Math.random() * Math.PI * 2; // random start position
+      },
+      tick: function (time, timeDelta) {
+        this.angle += this.data.speed * (timeDelta / 1000);
+        var r = this.data.radius;
+        var tiltRad = this.data.tilt * Math.PI / 180;
+        this.el.object3D.position.x = r * Math.cos(this.angle);
+        this.el.object3D.position.z = r * Math.sin(this.angle);
+        this.el.object3D.position.y = r * Math.sin(this.angle) * Math.sin(tiltRad);
+      }
+    });
+
+    /* ──────────────── Sun color cycling component ──────────────── */
+    AFRAME.registerComponent('sun-color-cycle', {
+      schema: {
+        dur: { type: 'number', default: 6000 }
+      },
+      init: function () {
+        this.colors = [
+          { r: 1.0, g: 0.85, b: 0.0 },   // golden yellow
+          { r: 1.0, g: 0.55, b: 0.0 },   // orange
+          { r: 1.0, g: 0.27, b: 0.0 },   // red-orange
+          { r: 1.0, g: 0.1,  b: 0.1 },   // red
+          { r: 1.0, g: 0.55, b: 0.0 },   // orange
+          { r: 1.0, g: 0.85, b: 0.0 }    // back to yellow
+        ];
+        this.elapsed = 0;
+      },
+      tick: function (time, timeDelta) {
+        this.elapsed += timeDelta;
+        var total = this.data.dur;
+        var t = (this.elapsed % total) / total;
+        var segments = this.colors.length - 1;
+        var seg = Math.floor(t * segments);
+        var local = (t * segments) - seg;
+        if (seg >= segments) { seg = segments - 1; local = 1; }
+        var c1 = this.colors[seg];
+        var c2 = this.colors[seg + 1];
+        var r = c1.r + (c2.r - c1.r) * local;
+        var g = c1.g + (c2.g - c1.g) * local;
+        var b = c1.b + (c2.b - c1.b) * local;
+        var mesh = this.el.getObject3D('mesh');
+        if (mesh && mesh.material) {
+          mesh.material.color.setRGB(r, g, b);
+          if (mesh.material.emissive) {
+            mesh.material.emissive.setRGB(r * 0.8, g * 0.6, b * 0.2);
+          }
+        }
+      }
+    });
+
+    /* ──────────────── Self-rotation component ──────────────── */
+    AFRAME.registerComponent('self-rotate', {
+      schema: {
+        speed: { type: 'number', default: 0.5 }
+      },
+      tick: function (time, timeDelta) {
+        this.el.object3D.rotation.y += this.data.speed * (timeDelta / 1000);
+      }
+    });
+
+    /* ──────────────── Orbit ring (visual path) ──────────────── */
+    AFRAME.registerComponent('orbit-ring', {
+      schema: {
+        radius: { type: 'number', default: 5 }
+      },
+      init: function () {
+        var r = this.data.radius;
+        var geometry = new THREE.RingGeometry(r - 0.02, r + 0.02, 128);
+        var material = new THREE.MeshBasicMaterial({
+          color: 0x444466, side: THREE.DoubleSide, transparent: true, opacity: 0.3
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.rotation.x = -Math.PI / 2;
+        this.el.object3D.add(mesh);
+      }
+    });
+  </script>
+
+  <a-scene vr-mode-ui="enabled: true">
+    <!-- ═══════════ Asset textures ═══════════ -->
+    <a-assets>
+      <img id="tex-sun"     src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/lensflare/lensflare0.png" crossorigin="anonymous">
+      <img id="tex-mercury" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/1024px-Mercury_in_true_color.jpg" crossorigin="anonymous">
+      <img id="tex-venus"   src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/1024px-Venus_from_Mariner_10.jpg" crossorigin="anonymous">
+      <img id="tex-earth"   src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg" crossorigin="anonymous">
+      <img id="tex-mars"    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/1024px-OSIRIS_Mars_true_color.jpg" crossorigin="anonymous">
+      <img id="stars-bg"    src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/starmap_2020_4k_print.jpg" crossorigin="anonymous">
+    </a-assets>
+
+    <!-- ═══════════ Starfield Sky ═══════════ -->
+    <a-sky src="#stars-bg" rotation="0 0 0"></a-sky>
+
+    <!-- ═══════════ Orbit path rings (visual guides) ═══════════ -->
+    <a-entity position="0 0 0" orbit-ring="radius: 6"></a-entity>
+    <a-entity position="0 0 0" orbit-ring="radius: 9"></a-entity>
+    <a-entity position="0 0 0" orbit-ring="radius: 13"></a-entity>
+    <a-entity position="0 0 0" orbit-ring="radius: 18"></a-entity>
+
+    <!-- ═══════════ SUN ═══════════ -->
+    <a-sphere id="sun" position="0 0 0" radius="3"
+      material="shader: flat; color: #FFD700; emissive: #FF8C00; emissiveIntensity: 1; src: #tex-sun"
+      sun-color-cycle="dur: 8000"
+      self-rotate="speed: 0.2"
+    ></a-sphere>
+
+    <!-- Sun glow effect (larger transparent sphere) -->
+    <a-sphere position="0 0 0" radius="3.5"
+      material="shader: flat; color: #FF8C00; transparent: true; opacity: 0.15"
+    ></a-sphere>
+
+    <!-- ═══════════ MERCURY ═══════════ -->
+    <a-entity id="mercury-orbit"
+      orbit="radius: 6; speed: 1.6; tilt: 2">
+      <a-sphere radius="0.4" src="#tex-mercury"
+        self-rotate="speed: 0.3"
+      ></a-sphere>
+      <a-text value="Mercury" position="0 0.7 0" align="center"
+        color="#ccc" width="3" look-at="[camera]"></a-text>
+    </a-entity>
+
+    <!-- ═══════════ VENUS ═══════════ -->
+    <a-entity id="venus-orbit"
+      orbit="radius: 9; speed: 1.1; tilt: 1">
+      <a-sphere radius="0.7" src="#tex-venus"
+        self-rotate="speed: -0.15"
+      ></a-sphere>
+      <a-text value="Venus" position="0 1 0" align="center"
+        color="#ccc" width="3" look-at="[camera]"></a-text>
+    </a-entity>
+
+    <!-- ═══════════ EARTH ═══════════ -->
+    <a-entity id="earth-orbit"
+      orbit="radius: 13; speed: 0.8; tilt: 0">
+      <a-sphere radius="0.8" src="#tex-earth"
+        self-rotate="speed: 1.0"
+      ></a-sphere>
+      <a-text value="Earth" position="0 1.1 0" align="center"
+        color="#88ccff" width="3" look-at="[camera]"></a-text>
+      <!-- Moon orbiting Earth -->
+      <a-entity orbit="radius: 1.5; speed: 3">
+        <a-sphere radius="0.2" color="#ccc"
+          self-rotate="speed: 0.5"></a-sphere>
+      </a-entity>
+    </a-entity>
+
+    <!-- ═══════════ MARS ═══════════ -->
+    <a-entity id="mars-orbit"
+      orbit="radius: 18; speed: 0.55; tilt: 1.5">
+      <a-sphere radius="0.55" src="#tex-mars"
+        self-rotate="speed: 0.9"
+      ></a-sphere>
+      <a-text value="Mars" position="0 0.8 0" align="center"
+        color="#ff8866" width="3" look-at="[camera]"></a-text>
+    </a-entity>
+
+    <!-- ═══════════ LIGHTS ═══════════ -->
+    <a-light type="ambient" color="#222233" intensity="0.4"></a-light>
+    <a-light type="point" color="#FFD700" intensity="2" distance="60"
+      position="0 0 0"></a-light>
+
+    <!-- ═══════════ CAMERA with WASD ═══════════ -->
+    <a-entity id="camera-rig" position="0 12 30">
+      <a-entity camera look-controls wasd-controls="acceleration: 40"
+        position="0 0 0">
+        <a-cursor color="#FFD700" fuse="false" raycaster="far: 100"></a-cursor>
+      </a-entity>
+    </a-entity>
+
+  </a-scene>
+</body>
+</html>
