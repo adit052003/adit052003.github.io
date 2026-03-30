@@ -9,9 +9,7 @@
     <script>
      document.addEventListener('DOMContentLoaded', () => {
         const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
-        const src = isLocal
-          ? 'http://localhost:8000/p01/IMAGES/Moving_Forest_1050_700.webp'
-          : './IMAGES/Moving_Forest_1050_700.webp';
+        const src = 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Rainbow_on_the_Azores_%E2%80%93_360%C2%B0_drone_shot.jpg';
 
         const img = document.getElementById('forest');
         img.setAttribute('src', src);        // set it
@@ -32,7 +30,7 @@
       ></a-sky>
       <a-text
         font="kelsonsans"
-        value="HELLO A-Frame!!!"
+        value="Look at the Azores!"
         width="6"
         position="-2.5  1.5 -2.5"  <!-- Position ! -->
       ></a-text>
