@@ -121,6 +121,7 @@
       <img id="tex-venus"   src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/1024px-Venus_from_Mariner_10.jpg" crossorigin="anonymous">
       <img id="tex-earth"   src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/earth_atmos_2048.jpg" crossorigin="anonymous">
       <img id="tex-mars"    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/1024px-OSIRIS_Mars_true_color.jpg" crossorigin="anonymous">
+      <img id="tex-jupiter" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg/1024px-Jupiter_and_its_shrunken_Great_Red_Spot.jpg" crossorigin="anonymous">
       <img id="stars-bg"    src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/textures/planets/starmap_2020_4k_print.jpg" crossorigin="anonymous">
     </a-assets>
 
@@ -132,6 +133,7 @@
     <a-entity position="0 0 0" orbit-ring="radius: 9"></a-entity>
     <a-entity position="0 0 0" orbit-ring="radius: 13"></a-entity>
     <a-entity position="0 0 0" orbit-ring="radius: 18"></a-entity>
+    <a-entity position="0 0 0" orbit-ring="radius: 24"></a-entity>
 
     <!-- ═══════════ SUN ═══════════ -->
     <a-sphere id="sun" position="0 0 0" radius="3"
@@ -188,6 +190,16 @@
       ></a-sphere>
       <a-text value="Mars" position="0 0.8 0" align="center"
         color="#ff8866" width="3" look-at="[camera]"></a-text>
+    </a-entity>
+
+    <!-- ═══════════ JUPITER ═══════════ -->
+    <a-entity id="jupiter-orbit"
+      orbit="radius: 24; speed: 0.35; tilt: 0.5">
+      <a-sphere radius="1.2" src="#tex-jupiter"
+        self-rotate="speed: 1.5"
+      ></a-sphere>
+      <a-text value="Jupiter" position="0 1.5 0" align="center"
+        color="#ffcc88" width="3" look-at="[camera]"></a-text>
     </a-entity>
 
     <!-- ═══════════ LIGHTS ═══════════ -->
