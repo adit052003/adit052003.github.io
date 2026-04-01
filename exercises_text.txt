@@ -1,0 +1,108 @@
+--- p01/Exercise-01-01-A-frame.docx ---
+Exercise: Simple A-frame example
+2024-05-23
+Phillip G. Bradford
+Goal: update text and position of text on Laptop and see effects in VR glasses
+Exercise
+This example is running A-frame from a basic HTML file – good to start with not-index.html
+In a web-browser such as google-chrome
+Select <CTRL>-o, then open the file simple-sky.html
+Move the scene around using the mouse-arrow
+Update the text in simple-sky.html and save
+Refresh the file simple-sky.html in the browser
+Verify the image has been updated in your phone using the VR glasses
+Change the a-text position values
+Do one at a time – change them by small increments such as 1 or 2; In the case of z update by 5 or 10.
+Use VR glasses to view the scene given these changes
+
+--- p01/Exercise-01-02-A-frame.docx ---
+Exercise: Forrest image
+2024-01-08
+Phillip G. Bradford
+Goal: use a-scene, a-sky tags and basic geometric objects and a static image
+Exercise
+Find an alternative (free and public-domain) image like the forest image or nebula image showing <a-scene>…</a-scene>, <a-sky>…</a-sky> and <a-text>…</a-text>
+Find a free and public domain 2D image (most images are 2D). Or you may use the forest image in this repo
+For example: https://images.google.com/ 
+Download an image to your laptop
+Upload the image into your project in glitch
+Get glitch-assigned URL to the image you just uploaded and point src=”glitch-url” in <a-sky>…</a-sky>  component of “forest.html”
+Update the words in <a-text>…</a-text>
+Work with the screen from <CTRL>-<ALT>-I on Windows and <CMD>-<OPTION>-I on MacOS
+On the phone instance of your short-git repository, click the new glitch URL
+Use VR glasses to view the scene
+
+--- p02/Exercise-02-01.docx ---
+Exercises
+2024-10-24
+Phillip G. Bradford
+Goal: manipulate a-sky images, learn about CORS for A-frame on your laptop
+Exercise
+Get a free / public domain image IMAGE above Seattle
+Update over-XXX.html so src=IMAGE 
+<a-sky src=IMAGE> </a-sky>
+Open over-XXX.html directly from the browser
+What happens?
+https://en.wikipedia.org/wiki/VR_photography 
+https://commons.wikimedia.org/wiki/File:Rainbow_on_the_Azores_%E2%80%93_360%C2%B0_drone_shot.jpg 
+How to fix?   A proxy to avoid CORS
+Debug…
+
+--- p02/Exercise-02-02.docx ---
+Exercises
+2025-10-24
+Phillip G. Bradford
+Goal: manipulate a-sky images, learn about CORS for non-website A-frame
+Exercise
+Get a free / public domain image IMAGE above XXX
+Update over-XXX.html so src=IMAGE 
+<a-sky src=IMAGE> </a-sky>
+Open over-XXXX.html directly from the browser
+What happens?
+https://en.wikipedia.org/wiki/VR_photography 
+https://commons.wikimedia.org/wiki/File:Rainbow_on_the_Azores_%E2%80%93_360%C2%B0_drone_shot.jpg 
+How to fix?   A proxy to avoid CORS
+Debug…
+
+--- p03/Exercise-03-01.docx ---
+Exercises
+2025-10-24
+Phillip G. Bradford
+Goal: manipulate a-sky images, learn about CORS for non-website A-frame
+Exercise
+Get a free / public domain image IMAGE above XXX
+Update over-Seattle.html so src=IMAGE 
+<a-sky src=IMAGE> </a-sky>
+Open over-Seattle.html directly from the browser
+What happens?
+https://en.wikipedia.org/wiki/VR_photography 
+https://commons.wikimedia.org/wiki/File:Rainbow_on_the_Azores_%E2%80%93_360%C2%B0_drone_shot.jpg 
+How to fix?   A proxy to avoid CORS
+Debug…
+
+--- p04/Exercise-04-01.docx ---
+Exercises
+2024-05-29
+Phillip G. Bradford
+Goal: textured sphere in a cube spinning
+Exercise
+Consider: a-cube-containing-sphere-texture.html
+Get Mars or the Earth spinning in the box in this image
+
+--- p04/Exercises-04-02.docx ---
+Exercises
+2024-05-30
+Phillip G. Bradford
+Goal: doing basic rotation
+Examine the file a-Platonic-solids.html
+Make all of the platonic solids rotate in place
+
+--- p05/Exercise-05-01.docx ---
+Exercises
+2024-05-29
+Phillip G. Bradford
+Goal: adding events to change color of objects on-click
+Exercise
+Consider: a-boxs-events-test.html
+Set this up to change the color of the two right cubes on click
+
