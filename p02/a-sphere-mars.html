@@ -5,9 +5,9 @@
   <body>
 	 <script>
      document.addEventListener('DOMContentLoaded', () => {
-        const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
+        const isLocal = true;
         const src = isLocal
-          ? 'http://localhost:8000/p02/IMAGES/mars-surface.avif'
+          ? './IMAGES/mars-surface.avif'
           : './IMAGES/mars-surface.avif';
 
         const img = document.getElementById('mars');

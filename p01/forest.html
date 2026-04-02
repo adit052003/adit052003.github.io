@@ -8,8 +8,8 @@
   <body>
     <script>
      document.addEventListener('DOMContentLoaded', () => {
-        const isLocal = ['localhost','127.0.0.1','[::1]'].includes(location.hostname);
-        const src = 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Rainbow_on_the_Azores_%E2%80%93_360%C2%B0_drone_shot.jpg';
+        const isLocal = true;
+        const src = './IMAGES/Moving_Forest_1050_700.webp';
 
         const img = document.getElementById('forest');
         img.setAttribute('src', src);        // set it
@@ -23,7 +23,7 @@
       </script>
     <a-scene>
       <a-assets>
-        <img id="forest"  crossorigin="anonymous"> <!-- src="http://localhost:8000/p01/IMAGES/Moving_Forest_1050_700.webp"-->
+        <img id="forest"  crossorigin="anonymous"> <!-- src="./IMAGES/Moving_Forest_1050_700.webp"-->
       </a-assets>
       <a-sky id="mySky"
         src="#forest"	position="-2.5  0 -1.5"
